@@ -1,0 +1,12 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+.header {
+  width: 100vw;
+  height: 50px;
+  background-color: #d14242;
+}
+.header h1 {
+  margin: 30px;
+}
