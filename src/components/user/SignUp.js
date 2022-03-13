@@ -1,41 +1,33 @@
 import classes from "./SignUp.module.css";
-import React, { useRef } from "react";
-// import { app } from "./firebase-config";
-// import {
-//   getAuth,
-//   signInWithEmailAndPassword,
-//   createUserWithEmailAndPassword,
-// } from "firebase/auth";
+import React, { useRef, useContext } from "react";
+import { authContext } from "../context/authContext";
 
 function SignUp() {
+  const { SignUp } = useContext(authContext);
   const emailInputRef = useRef();
   const fullNameInputRef = useRef();
   const userName = useRef();
   const password = useRef();
   async function submitHandler(event) {
-    event.preventDefault();
-    const emailInput = emailInputRef.current.value;
-    const fullNameInput = fullNameInputRef.current.value;
-    const userNameValue = userName.current.value;
-    const passwordValue = password.current.value;
-    const signUpData = {
-      email: emailInput,
-      fullName: fullNameInput,
-      userName: userNameValue,
-      password: passwordValue,
-    };
-    // const authentication = getAuth();
-    const response = await createUserWithEmailAndPassword(
-      authentication,
-      email,
-      password
-    );
-    sessionStorage.setItem("Auth Token", response._tokenResponse.refreshToken);
-
-    // props.onAddMeetup(signUpData);
+    try {
+      event.preventDefault();
+      const emailInput = emailInputRef.current.value;
+      const fullNameInput = fullNameInputRef.current.value;
+      const userNameValue = userName.current.value;
+      const passwordValue = password.current.value;
+      const signUpData = {
+        email: emailInput,
+        fullName: fullNameInput,
+        userName: userNameValue,
+        password: passwordValue,
+      };
+      await SignUp(emailInput, passwordValue);
+    } catch (e) {
+      alert(e);
+    }
   }
   return (
-    <div className="SignUp">
+    <div className={classes.SignUp}>
       <form className={classes.form} onSubmit={submitHandler}>
         <div className={classes.form_control}>
           <input
@@ -73,25 +65,9 @@ function SignUp() {
 }
 
 export default SignUp;
-// const navigate = useNavigate();
-// navigate('/home')
 // import {
 //     BrowserRouter as Router,
 //     Routes,
 //     Route,
 //     useNavigate
 //   } from "react-router-dom";
-{
-  /* <React.StrictMode></React.StrictMode> */
-}
-// useEffect(() => {
-//     let authToken = sessionStorage.getItem('Auth Token')
-
-//     if (authToken) {
-//         navigate('/home')
-//     }
-
-//     if (!authToken) {
-//         navigate('/login')
-//     }
-// }, [])
