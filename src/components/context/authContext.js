@@ -7,10 +7,10 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
 export const authContext = createContext();
 const { Provider } = authContext;
-
+const db = getFirestore();
 export const AuthProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState(null);
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
     setAuthToken(null);
     navigate("/");
   };
-  const SignUp = async (email, password) => {
+  const SignUp = async (email, password, fullNameInput, userNameValue) => {
     const response = await createUserWithEmailAndPassword(
       authentication,
       email,
@@ -34,6 +34,22 @@ export const AuthProvider = ({ children }) => {
     );
     sessionStorage.setItem("Auth Token", response._tokenResponse.refreshToken);
     setAuthToken(response._tokenResponse.refreshToken);
+    const signUpData = {
+      email: email,
+      fullName: fullNameInput,
+      userName: userNameValue,
+    };
+    try {
+      const docRef = await addDoc(collection(db, "users"), signUpData);
+      console.log("Document written with ID: ", docRef.id);
+      const querySnapshot = await getDocs(collection(db, "users"));
+      querySnapshot.forEach((doc) => {
+        console.log(`${doc.id} => ${doc.data()}`);
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+
     navigate("/home");
   };
 

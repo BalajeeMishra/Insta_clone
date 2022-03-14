@@ -15,13 +15,7 @@ function SignUp() {
       const fullNameInput = fullNameInputRef.current.value;
       const userNameValue = userName.current.value;
       const passwordValue = password.current.value;
-      const signUpData = {
-        email: emailInput,
-        fullName: fullNameInput,
-        userName: userNameValue,
-        password: passwordValue,
-      };
-      await SignUp(emailInput, passwordValue);
+      await SignUp(emailInput, passwordValue, fullNameInput, userNameValue);
     } catch (e) {
       alert(e);
     }
