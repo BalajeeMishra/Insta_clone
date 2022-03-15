@@ -1,5 +1,4 @@
 import React, { useRef, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { authContext } from "./../context/authContext";
 
 import classes from "./SignUp.module.css";
@@ -9,7 +8,6 @@ const LogIn = (props) => {
 
   const emailInputRef = useRef();
   const password = useRef();
-  const navigate = useNavigate();
   async function submitHandler(event) {
     try {
       event.preventDefault();

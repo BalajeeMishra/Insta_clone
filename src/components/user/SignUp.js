@@ -1,7 +1,6 @@
 import classes from "./SignUp.module.css";
 import React, { useRef, useContext } from "react";
 import { authContext } from "../context/authContext";
-
 function SignUp() {
   const { SignUp } = useContext(authContext);
   const emailInputRef = useRef();
@@ -59,9 +58,3 @@ function SignUp() {
 }
 
 export default SignUp;
-// import {
-//     BrowserRouter as Router,
-//     Routes,
-//     Route,
-//     useNavigate
-//   } from "react-router-dom";

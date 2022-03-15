@@ -8,7 +8,9 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import { UncontrolledAlert } from "reactstrap";
 export const authContext = createContext();
+
 const { Provider } = authContext;
 const db = getFirestore();
 export const AuthProvider = ({ children }) => {
