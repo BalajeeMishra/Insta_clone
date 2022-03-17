@@ -21,7 +21,7 @@ const LogIn = (props) => {
 
   return (
     <div className={classes.SignUp}>
-      <form className={classes.form} onSubmit={submitHandler}>
+      <form className={classes.form_one} onSubmit={submitHandler}>
         <div className={classes.form_control}>
           <input
             type="email"

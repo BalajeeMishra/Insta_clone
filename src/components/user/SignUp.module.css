@@ -6,11 +6,11 @@
 }
 button {
   display: flex;
-  margin: auto;
+  margin: auto !important;
   padding: 10px 20px;
-  border-radius: 10px;
+  border-radius: 10px !important;
 }
-.form {
+.form_one {
   width: 50%;
   background: rgba(119, 164, 172, 0.7);
   box-shadow: 0 8px 32px 0 rgb(31 38 135 / 37%);
@@ -23,5 +23,5 @@ button {
 input {
   width: 80%;
   height: 2em;
-  margin: 5px 40px; /* auto kyon nhi kam kar raha hai. */
+  margin: 5px 40px !important; /* auto kyon nhi kam kar raha hai. */
 }

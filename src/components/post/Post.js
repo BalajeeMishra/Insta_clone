@@ -62,7 +62,7 @@ const Post = () => {
             <p>10 hours ago</p>
           </div>
           <hr></hr>
-          <input type="text" placeholder="Add a comment..." />
+          <input className="input" type="text" placeholder="Add a comment..." />
         </CardBody>
       </Card>
     </div>

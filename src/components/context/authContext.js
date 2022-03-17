@@ -34,12 +34,14 @@ export const AuthProvider = ({ children }) => {
       email,
       password
     );
+    console.log(response);
     sessionStorage.setItem("Auth Token", response._tokenResponse.refreshToken);
     setAuthToken(response._tokenResponse.refreshToken);
     const signUpData = {
       email: email,
       fullName: fullNameInput,
       userName: userNameValue,
+      _id: response._tokenResponse.localId,
     };
     try {
       const docRef = await addDoc(collection(db, "users"), signUpData);
@@ -61,6 +63,21 @@ export const AuthProvider = ({ children }) => {
       email,
       password
     );
+    console.log(response);
+    console.log(response._tokenResponse.localId);
+    // const user = firebase.auth().currentUser;
+    // authentication.currentUser
+    //   .updateProfile({
+    //     displayName: "Jane Q. User",
+    //     photoURL: "https://example.com/jane-q-user/profile.jpg",
+    //   })
+    //   .then(function () {
+    //     console.log("added");
+    //     console.log(authentication.currentUser);
+    //   })
+    //   .catch(function (error) {
+    //     console.log("An error occurd");
+    //   });
 
     if (!authToken) {
       sessionStorage.setItem(
@@ -69,7 +86,6 @@ export const AuthProvider = ({ children }) => {
       );
       setAuthToken(response._tokenResponse.refreshToken);
     }
-    console.log(email, password);
     navigate("/home");
   };
 

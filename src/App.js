@@ -6,14 +6,15 @@ import MainNavigation from "./components/layout/MainNavigation";
 import SignUp from "./components/user/SignUp";
 import LogIn from "./components/user/LogIn";
 import Home from "./components/layout/Home";
-
-
+import ModalForUpload from "./components/layout/modal";
+import "bootstrap/dist/css/bootstrap.min.css";
 const App = () => {
   return (
     <Router>
       <AuthProvider>
         {/* Static component */}
         <MainNavigation />
+        <ModalForUpload />
         {/* Routing component */}
         <Routes>
           <Route exact path="/signup" element={<SignUp />} />
