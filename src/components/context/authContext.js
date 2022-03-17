@@ -7,7 +7,13 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  where,
+} from "firebase/firestore";
 import { UncontrolledAlert } from "reactstrap";
 export const authContext = createContext();
 
@@ -20,6 +26,12 @@ export const AuthProvider = ({ children }) => {
   const authentication = getAuth();
 
   useEffect(() => setAuthToken(sessionStorage.getItem("Auth Token")), []);
+  // useEffect(() => {
+  //   const firestoreRef = firebase.firestore().collection('users');
+  //   // Create a query against the collection where we can match the formId
+  //   const queryRef = firestoreRef.where('formMetaData.formId', '==', ID_HERE);
+
+  // }, []);
 
   const SignOut = async () => {
     console.log("Sign Out from AuthContext");
@@ -34,7 +46,6 @@ export const AuthProvider = ({ children }) => {
       email,
       password
     );
-    console.log(response);
     sessionStorage.setItem("Auth Token", response._tokenResponse.refreshToken);
     setAuthToken(response._tokenResponse.refreshToken);
     const signUpData = {
@@ -47,6 +58,8 @@ export const AuthProvider = ({ children }) => {
       const docRef = await addDoc(collection(db, "users"), signUpData);
       console.log("Document written with ID: ", docRef.id);
       const querySnapshot = await getDocs(collection(db, "users"));
+      console.log(querySnapshot);
+      console.log(querySnapshot.length);
       querySnapshot.forEach((doc) => {
         console.log(`${doc.id} => ${doc.data()}`);
       });
