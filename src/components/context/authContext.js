@@ -1,8 +1,9 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./../user/firebase-config";
+import { App } from "./../user/firebase-config";
 import {
   getAuth,
+  updateProfile,
   signOut,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -13,10 +14,14 @@ import {
   addDoc,
   getDocs,
   where,
+  doc,
+  setDoc,
+  query,
 } from "firebase/firestore";
-import { UncontrolledAlert } from "reactstrap";
+import { getStorage, ref } from "firebase/storage";
 export const authContext = createContext();
-
+const storage = getStorage(App);
+const storageRef = ref(storage);
 const { Provider } = authContext;
 const db = getFirestore();
 export const AuthProvider = ({ children }) => {
@@ -26,12 +31,6 @@ export const AuthProvider = ({ children }) => {
   const authentication = getAuth();
 
   useEffect(() => setAuthToken(sessionStorage.getItem("Auth Token")), []);
-  // useEffect(() => {
-  //   const firestoreRef = firebase.firestore().collection('users');
-  //   // Create a query against the collection where we can match the formId
-  //   const queryRef = firestoreRef.where('formMetaData.formId', '==', ID_HERE);
-
-  // }, []);
 
   const SignOut = async () => {
     console.log("Sign Out from AuthContext");
@@ -54,18 +53,33 @@ export const AuthProvider = ({ children }) => {
       userName: userNameValue,
       _id: response._tokenResponse.localId,
     };
-    try {
-      const docRef = await addDoc(collection(db, "users"), signUpData);
-      console.log("Document written with ID: ", docRef.id);
-      const querySnapshot = await getDocs(collection(db, "users"));
-      console.log(querySnapshot);
-      console.log(querySnapshot.length);
-      querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data()}`);
-      });
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
+
+    // const docRef = await addDoc(collection(db, "users"), signUpData);
+
+    // add with it too.
+    await setDoc(doc(db, "cities", "LA"), {
+      name: "Los Angeles",
+      state: "CA",
+      country: "USA",
+      capital: true,
+    });
+
+    const q = query(collection(db, "cities"), where("capital", "==", true));
+
+    const querySnapshot = await getDocs(q);
+    console.log(querySnapshot);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+    });
+    // console.log("Document written with ID: ", docRef.id);
+    //   const querySnapshot = await getDocs(collection(db, "users"));
+    //   querySnapshot.forEach((doc) => {
+    //     console.log(`${doc.id} => ${doc.data()}`);
+    //   });
+    // } catch (e) {
+    //   console.error("Error adding document: ", e);
+    // }
 
     navigate("/home");
   };
@@ -78,20 +92,6 @@ export const AuthProvider = ({ children }) => {
     );
     console.log(response);
     console.log(response._tokenResponse.localId);
-    // const user = firebase.auth().currentUser;
-    // authentication.currentUser
-    //   .updateProfile({
-    //     displayName: "Jane Q. User",
-    //     photoURL: "https://example.com/jane-q-user/profile.jpg",
-    //   })
-    //   .then(function () {
-    //     console.log("added");
-    //     console.log(authentication.currentUser);
-    //   })
-    //   .catch(function (error) {
-    //     console.log("An error occurd");
-    //   });
-
     if (!authToken) {
       sessionStorage.setItem(
         "Auth Token",
@@ -99,6 +99,22 @@ export const AuthProvider = ({ children }) => {
       );
       setAuthToken(response._tokenResponse.refreshToken);
     }
+
+    //code to update user okay
+    // updateProfile(authentication.currentUser, {
+    //   displayName: "Jane Q. User",
+    //   photoURL: "https://example.com/jane-q-user/profile.jpg",
+    // })
+    //   .then(() => {
+    //     // Profile updated!
+    //     // ...
+    //     console.log("hello", authentication.currentUser);
+    //   })
+    //   .catch((error) => {
+    //     // An error occurred
+    //     // ...
+    //     console.log("hello");
+    //   });
     navigate("/home");
   };
 
