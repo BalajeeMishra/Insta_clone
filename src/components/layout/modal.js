@@ -19,13 +19,11 @@ const ModalForUpload = (props) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
       setName(e.target.files[0].name);
-      submitData(e.target.files[0]);
     }
   };
   const submitData = (file) => {
-    console.log("hello world");
     const storage = getStorage(App);
-
+    // document.getElementsByClassName("models")[0].style.marginTop = "200px";
     // Create the file metadata
     /** @type {any} */
     const metadata = {
@@ -81,14 +79,6 @@ const ModalForUpload = (props) => {
   };
   return (
     <div>
-      {/* <Button
-        color="danger"
-        onClick={() => {
-          setModal(!modal);
-        }}
-      >
-        Click Me
-      </Button> */}
       <GoDiffAdded
         size={"30px"}
         onClick={() => {
@@ -96,6 +86,7 @@ const ModalForUpload = (props) => {
         }}
       />
       <Modal
+        className={"models"}
         isOpen={modal}
         toggle={() => {
           setModal(!modal);
@@ -122,7 +113,13 @@ const ModalForUpload = (props) => {
 
           {selectedImage && (
             <div>
-              <button onClick={submitData}>Next</button>
+              <button
+                onClick={() => {
+                  submitData(selectedImage);
+                }}
+              >
+                Next
+              </button>
               <div style={styles.preview}>
                 <img
                   src={URL.createObjectURL(selectedImage)}
@@ -135,7 +132,7 @@ const ModalForUpload = (props) => {
                 />
               </div>
 
-              {/* <input type="text" placeholder="Enter caption" /> */}
+              <input type="text" placeholder="Enter caption" />
             </div>
           )}
         </ModalBody>

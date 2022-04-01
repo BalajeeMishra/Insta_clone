@@ -33,7 +33,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => setAuthToken(sessionStorage.getItem("Auth Token")), []);
 
   const SignOut = async () => {
-    console.log("Sign Out from AuthContext");
     await signOut(authentication);
     sessionStorage.removeItem("Auth Token");
     setAuthToken(null);
@@ -55,6 +54,14 @@ export const AuthProvider = ({ children }) => {
     };
 
     // const docRef = await addDoc(collection(db, "users"), signUpData);
+    // console.log("Document written with ID: ", docRef.id);
+    //   const querySnapshot = await getDocs(collection(db, "users"));
+    //   querySnapshot.forEach((doc) => {
+    //     console.log(`${doc.id} => ${doc.data()}`);
+    //   });
+    // } catch (e) {
+    //   console.error("Error adding document: ", e);
+    // }
 
     // add with it too.
     await setDoc(doc(db, "cities", "LA"), {
@@ -72,14 +79,6 @@ export const AuthProvider = ({ children }) => {
       // doc.data() is never undefined for query doc snapshots
       console.log(doc.id, " => ", doc.data());
     });
-    // console.log("Document written with ID: ", docRef.id);
-    //   const querySnapshot = await getDocs(collection(db, "users"));
-    //   querySnapshot.forEach((doc) => {
-    //     console.log(`${doc.id} => ${doc.data()}`);
-    //   });
-    // } catch (e) {
-    //   console.error("Error adding document: ", e);
-    // }
 
     navigate("/home");
   };
