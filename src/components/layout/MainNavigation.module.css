@@ -4,9 +4,26 @@ body {
 }
 .header {
   width: 100vw;
-  height: 50px;
-  background-color: #d14242;
+  height: 60px;
+  background-color: #678ae1;
+  /* border: 1px solid wheat; */
 }
 .header h1 {
-  margin: 30px;
+ margin-bottom: 1em !important;
+}
+input{
+  width: 20vw !important;
+  background-color: azure;
+  margin-top: 10px !important;
+}
+.instagram{
+  display: flex;
+  justify-content: space-evenly;
+}
+.rightparticons{
+  display: flex;
+  justify-content: space-evenly;
+  width: 30%;
+  margin-top: 10px;
+
 }
